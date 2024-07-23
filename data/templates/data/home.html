@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+  {% if error %}
+  {{ error }}
+  {% endif %}
+  <a href={{ auth_url }}>Login with HubSpot</a>
+  <hr>
+  <ul>
+    {% for person in people %}
+    <form action={% url 'data:delete_contact' person.id %} method="post">
+      {% csrf_token %}
+      <li><button type="submit">Delete</button> {{ person.properties.firstname }} {{ person.properties.lastname }} --- {{ person.properties.email }}</li>
+    </form>
+    {% endfor %}
+  </ul>
+  <hr>
+  <form action={% url 'data:submit_contact' %} method='post'>
+    {% csrf_token %}
+    <fieldset>
+      <legend>New Contact</legend>
+      <label for="first_name">First Name: </label>
+      <input id="first_name" name="first_name" placeholder="John"><br>
+      <label for="last_name">Last Name: </label>
+      <input id="last_name" name="last_name" placeholder="Smith"><br>
+      <label for="email">Email: </label>
+      <input id="email" name="email" placeholder="johnsmith@hotmail.com"><br>
+      <button type="submit">Add</button>
+    </fieldset>
+  </form>
+</body>
+</html>
